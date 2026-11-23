@@ -36,6 +36,16 @@ Artes de texto (carrossel, frase, lista, CTA) são **renderizadas por código**,
 - Sem logo, o espaço fica livre. Nunca invente logotipo.
 - O contador 1/N é automático.
 
+## Fundo com foto ou imagem
+Para um visual mais rico, use uma imagem de fundo. O script corta a imagem no tamanho, escurece e escreve o texto por cima, sem erro de letras.
+```json
+{ "imagem_fundo": "/mnt/data/foto.jpg", "imagem_em": "capa", "escurecer": 0.55, ... }
+```
+- `imagem_em`: `capa` (só o slide 1, padrão) ou `todos`. Para um slide específico, use `"imagem": "caminho"` dentro dele.
+- `escurecer`: 0 a 0.9. Mais alto = texto mais legível, imagem mais apagada. Fotos claras pedem 0.6 ou mais.
+- A imagem precisa estar **anexada na conversa**. Se a dona pedir que você crie a imagem, gere sem texto dentro, peça que ela baixe e anexe de volta, e então renderize.
+- Se o arquivo não for achado, o script avisa e usa fundo liso. Avise a dona; não diga que usou a imagem.
+
 ## Regras de design
 - Uma ideia por slide. Slide 1 é gancho. Último é CTA. No máximo 3 itens por lista.
 - Stories e Reels (9:16): deixe topo e rodapé livres, a interface do app cobre essas faixas.

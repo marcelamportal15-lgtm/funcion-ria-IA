@@ -2,7 +2,8 @@
 """Gera artes (PNG) a partir de um JSON, só com Pillow. Roda no Code Interpreter do ChatGPT.
 
 Uso:  python render_slides.py entrada.json [pasta_saida] [--so-primeiro]
-JSON: { "estilo": "clinico" | "bold" | "elegante", "formato": "4:5" | "1:1" | "9:16",
+JSON: { "imagem_fundo": "foto.jpg" (opcional), "imagem_em": "capa"|"todos", "escurecer": 0.55,
+        "estilo": "clinico" | "bold" | "elegante", "formato": "4:5" | "1:1" | "9:16",
         "marca": {"cores": {...}}, "slides": [ {"titulo","apoio","lista","botao","tag","tipo"} ] }
 Saída: slide-01.png, slide-02.png... (1080x1350, 1080x1080 ou 1080x1920)
 
@@ -70,18 +71,60 @@ def mistura(a, b, t):
     return tuple(int(a[i] + (b[i] - a[i]) * t) for i in range(3))
 
 
-def quebra(draw, texto, fonte, largura):
-    linhas, atual = [], ""
-    for p in texto.split():
-        teste = (atual + " " + p).strip()
-        if draw.textlength(teste, font=fonte) <= largura:
-            atual = teste
-        else:
-            if atual:
-                linhas.append(atual)
-            atual = p
-    if atual:
-        linhas.append(atual)
+def quebra(draw, texto, fonte, largura, balanceado=False):
+    """Quebra o texto em linhas. balanceado=True evita palavra sozinha na última linha."""
+    palavras = texto.split()
+
+    def guloso(lg):
+        linhas, atual = [], ""
+        for p in palavras:
+            teste = (atual + " " + p).strip()
+            if draw.textlength(teste, font=fonte) <= lg:
+                atual = teste
+            else:
+                if atual:
+                    linhas.append(atual)
+                atual = p
+        if atual:
+            linhas.append(atual)
+        return linhas
+
+    linhas = guloso(largura)
+    if balanceado and len(linhas) > 1:
+        n = len(linhas)
+        lo = max(draw.textlength(p, font=fonte) for p in palavras)
+        hi = largura
+        for _ in range(16):
+            mid = (lo + hi) / 2
+            if len(guloso(mid)) <= n:
+                hi = mid
+            else:
+                lo = mid
+        # distribui as palavras em n linhas o mais parecidas possível (sem estourar hi)
+        W_ = [[0.0] * (len(palavras) + 1) for _ in range(len(palavras) + 1)]
+        for i in range(len(palavras)):
+            for j in range(i + 1, len(palavras) + 1):
+                W_[i][j] = draw.textlength(" ".join(palavras[i:j]), font=fonte)
+        INF = float("inf")
+        m = len(palavras)
+        custo = [[INF] * (m + 1) for _ in range(n + 1)]
+        volta = [[0] * (m + 1) for _ in range(n + 1)]
+        custo[0][0] = 0.0
+        for k in range(1, n + 1):
+            for j in range(k, m + 1):
+                for i in range(k - 1, j):
+                    if W_[i][j] <= hi * 1.0001 and custo[k - 1][i] < INF:
+                        c = custo[k - 1][i] + (hi - W_[i][j]) ** 2
+                        if c < custo[k][j]:
+                            custo[k][j], volta[k][j] = c, i
+        if custo[n][m] < INF:
+            cortes, j = [], m
+            for k in range(n, 0, -1):
+                i = volta[k][j]
+                cortes.append(" ".join(palavras[i:j]))
+                j = i
+            return cortes[::-1]
+        linhas = guloso(hi)
     return linhas
 
 
@@ -166,6 +209,31 @@ def fundo(estilo, tipo, escuro, cores, W, H, idx):
     return com_formas(img, f)
 
 
+def prepara_fundo_imagem(caminho, W, H, cor, escurecer):
+    """Corta a imagem para preencher W x H e escurece para o texto ficar legível."""
+    im = Image.open(caminho).convert("RGB")
+    k = max(W / im.width, H / im.height)
+    im = im.resize((int(im.width * k) + 1, int(im.height * k) + 1), Image.LANCZOS)
+    x, y = (im.width - W) // 2, (im.height - H) // 2
+    im = im.crop((x, y, x + W, y + H))
+    return Image.blend(im, Image.new("RGB", (W, H), cor), max(0.0, min(0.9, escurecer)))
+
+
+def decora_sobre_imagem(img, estilo, cores, W, H):
+    dest = rgb(cores["destaque"])
+
+    def f(d, k):
+        if estilo == "bold":
+            d.rectangle([90 * k, 150 * k, 250 * k, 164 * k], fill=dest + (255,))
+        elif estilo == "elegante":
+            d.rectangle([44 * k, 44 * k, (W - 44) * k, (H - 44) * k], outline=dest + (255,), width=3 * k)
+            d.rectangle([62 * k, 62 * k, (W - 62) * k, (H - 62) * k], outline=dest + (140,), width=1 * k)
+        else:
+            d.rectangle([0, 0, W * k, 18 * k], fill=dest + (255,))
+
+    return com_formas(img, f)
+
+
 # ---------- texto ----------
 
 def marcador(d, estilo, x, y, t, cor):
@@ -180,9 +248,9 @@ def marcador(d, estilo, x, y, t, cor):
         d.polygon([(cx, cy - r), (cx + r, cy), (cx, cy + r), (cx - r, cy)], fill=cor)
 
 
-def desenha_slide(s, i, total, W, H, cores, fontes, estilo, logo):
+def desenha_slide(s, i, total, W, H, cores, fontes, estilo, logo, fundo_img=None):
     tipo = s.get("tipo") or ("capa" if i == 0 else "cta" if i == total - 1 else "conteudo")
-    escuro = tipo in ("capa", "cta")
+    escuro = tipo in ("capa", "cta") or fundo_img is not None
     centro = estilo == "elegante"
     caixa_alta = estilo == "bold"
     prim, fund, dest = rgb(cores["primaria"]), rgb(cores["fundo"]), rgb(cores["destaque"])
@@ -190,7 +258,10 @@ def desenha_slide(s, i, total, W, H, cores, fontes, estilo, logo):
     cor_dest = dest if (escuro or estilo != "elegante") else mistura(dest, prim, 0.35)
     f_bold, f_reg = fontes
 
-    img = fundo(estilo, tipo, escuro, cores, W, H, i)
+    if fundo_img is not None:
+        img = decora_sobre_imagem(fundo_img.copy(), estilo, cores, W, H)
+    else:
+        img = fundo(estilo, tipo, escuro, cores, W, H, i)
     d = ImageDraw.Draw(img)
 
     seguro = 130 if H >= 1900 else 0  # Stories/Reels: topo e rodapé cobertos pelo app
@@ -200,7 +271,7 @@ def desenha_slide(s, i, total, W, H, cores, fontes, estilo, logo):
     reserva = 210 + seguro + (230 if (estilo == "bold" and escuro) else 0)
     area_h = H - topo - reserva
 
-    t_tam = 108 if tipo == "capa" else 84
+    t_tam = (96 if centro else 108) if tipo == "capa" else 84
     a_tam = 44
     gap = 36
     titulo = s["titulo"].upper() if caixa_alta else s["titulo"]
@@ -210,7 +281,7 @@ def desenha_slide(s, i, total, W, H, cores, fontes, estilo, logo):
             blocos.append(("tag", ImageFont.truetype(f_bold, 30), [s["tag"].upper()], 40))
             altura += 40 + gap
         ft = ImageFont.truetype(f_bold, t_tam)
-        lt = quebra(d, titulo, ft, larg)
+        lt = quebra(d, titulo, ft, larg, True)
         blocos.append(("titulo", ft, lt, int(t_tam * 1.1)))
         altura += int(len(lt) * t_tam * 1.1) + 16
         if estilo == "clinico":
@@ -218,7 +289,7 @@ def desenha_slide(s, i, total, W, H, cores, fontes, estilo, logo):
             altura += gap + 20
         if s.get("apoio"):
             fa = ImageFont.truetype(f_reg, a_tam)
-            la = quebra(d, s["apoio"], fa, larg)
+            la = quebra(d, s["apoio"], fa, larg, True)
             blocos.append(("apoio", fa, la, int(a_tam * 1.35)))
             altura += gap + int(len(la) * a_tam * 1.35)
         if s.get("lista"):
@@ -320,7 +391,17 @@ def main():
     alvo = slides[:1] if so_primeiro else slides
     problemas = 0
     for i, s in enumerate(alvo):
-        img = desenha_slide(s, i, len(slides), W, H, cores, (fb, fr), estilo, logo)
+        caminho_img = s.get("imagem") or (cfg.get("imagem_fundo") if (cfg.get("imagem_em", "capa") == "todos" or i == 0) else None)
+        fundo_img = None
+        if caminho_img:
+            junto_do_json = os.path.join(os.path.dirname(os.path.abspath(args[0])), caminho_img)
+            if not os.path.exists(caminho_img) and os.path.exists(junto_do_json):
+                caminho_img = junto_do_json
+            if not os.path.exists(caminho_img):
+                print("AVISO: imagem não encontrada, usando fundo liso:", caminho_img)
+            else:
+                fundo_img = prepara_fundo_imagem(caminho_img, W, H, rgb(cores["primaria"]), cfg.get("escurecer", 0.55))
+        img = desenha_slide(s, i, len(slides), W, H, cores, (fb, fr), estilo, logo, fundo_img)
         caminho = os.path.join(pasta, f"slide-{i + 1:02d}.png")
         img.save(caminho)
         ok = Image.open(caminho).size == (W, H)
