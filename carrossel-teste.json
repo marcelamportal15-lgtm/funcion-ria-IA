@@ -1,0 +1,14 @@
+{
+  "formato": "4:5",
+  "saida": "artes-teste",
+  "marca": {
+    "nome": "Pack Empreendedores",
+    "cores": { "fundo": "#FFFFFF", "primaria": "#0B2A5B", "destaque": "#6DB6FF", "texto": "#0B2A5B" }
+  },
+  "slides": [
+    { "tag": "Clínica odontológica", "titulo": "Pare de criar conteúdo do zero." },
+    { "titulo": "O problema não é postar.", "apoio": "É começar toda semana de uma folha em branco." },
+    { "titulo": "Com um pack pronto você recebe:", "lista": ["Artes editáveis no Canva", "Temas para clínicas", "Calendário organizado"] },
+    { "titulo": "Chega de improvisar.", "apoio": "Acesse agora o pack.", "botao": "Quero o pack" }
+  ]
+}
