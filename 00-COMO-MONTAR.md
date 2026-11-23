@@ -11,6 +11,8 @@
    - `render_slides.py`
    - `modo-designer.md`
    - `modo-copywriter.md`
+   - `modo-reels.md`
+   - `modo-imagens.md`
    - `briefing-template.md`
    - `pedidos-prontos.md`
    - o briefing da marca (cliente: o dele; seu teste: `briefing-exemplo-pack-empreendedores.md`)
@@ -24,6 +26,8 @@ O ChatGPT muda sem aviso. Rode estes testes no seu plano e anote o resultado:
 - [ ] Ela achou o script em `/mnt/data/`? Se não achou, mude o caminho nas instruções e em `modo-designer.md`.
 - [ ] O texto das artes está sem erro e os checks aparecem?
 - [ ] Opção 1: o `calendario.csv` abre no Excel com acentos certos e uma coluna por campo?
+- [ ] Opção 9: o roteiro de Reels saiu em tabela (Tempo | Fala | Texto na tela | Cena), com 2 ganchos A/B e capa?
+- [ ] Opção 10: ela gerou a imagem SEM texto, pediu para anexar de volta e só então colocou o texto por cima?
 - [ ] Opção 8: entregou calendário, posts e artes em uma só resposta?
 - [ ] Ela avisou que não posta sozinha e mandou conferir horário nos insights?
 - [ ] Testei no **celular** (app). Os links de download funcionam?

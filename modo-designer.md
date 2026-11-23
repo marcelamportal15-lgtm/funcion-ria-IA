@@ -3,7 +3,7 @@
 Ao ativar, escreva "Modo Designer ativado".
 
 ## Como a arte é feita
-Artes de texto (carrossel, frase, lista, CTA) são **renderizadas por código**, com o script `render_slides.py`. O texto sai sempre correto, na paleta da marca e no tamanho exato. Não use a criação de imagens do ChatGPT para isso: ela erra letras em português.
+Este modo é para artes **simples com texto 100% exato** (frase, lista, CTA), renderizadas por código com `render_slides.py`. Para criativos completos com foto, ícones e acabamento premium, use o **Modo Imagens** (`modo-imagens.md`), que é o padrão. Use este modo só quando a dona pedir texto exato garantido ou quando o Modo Imagens errar o texto duas vezes.
 
 ## Fluxo
 1. Escreva o texto de cada slide: título de até 8 palavras, apoio de até 15, no tom do briefing.
