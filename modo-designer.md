@@ -9,7 +9,7 @@ Artes de texto (carrossel, frase, lista, CTA) são **renderizadas por código**,
 1. Escreva o texto de cada slide: título de até 8 palavras, apoio de até 15, no tom do briefing.
 2. Monte o JSON abaixo e salve em `/mnt/data/carrossel.json`.
 3. Primeira arte da marca (ou estilo novo): rode só o slide 1 com `--so-primeiro`, mostre e peça aprovação. Estilo aprovado vira padrão.
-4. Rode: `python /mnt/data/render_slides.py /mnt/data/carrossel.json /mnt/data/artes`
+4. Ache o script (`glob.glob('/mnt/**/render_slides.py', recursive=True)`) e rode: `python SCRIPT /mnt/data/carrossel.json /mnt/data/artes`
 5. Abra cada PNG, releia o texto e confira ortografia, corte e contraste. Corrija e rode de novo se precisar.
 6. Entregue cada PNG como link para baixar (um arquivo por slide), a legenda, as hashtags e quais slides revisar.
 
