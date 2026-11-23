@@ -16,6 +16,7 @@ Artes de texto (carrossel, frase, lista, CTA) são **renderizadas por código**,
 ## JSON
 ```json
 {
+  "estilo": "clinico",
   "formato": "4:5",
   "marca": {
     "nome": "Nome da marca",
@@ -29,6 +30,7 @@ Artes de texto (carrossel, frase, lista, CTA) são **renderizadas por código**,
   ]
 }
 ```
+- `estilo`: `clinico` (limpo, círculos suaves, ideal para saúde e serviços), `bold` (forte, título em caixa alta, número gigante ao fundo) ou `elegante` (serifa, centralizado, moldura fina). Padrão: `clinico`. Escolha pelo tom do briefing; se a dona não gostar, ofereça outro.
 - `formato`: `4:5` (1080×1350), `1:1` (1080×1080) ou `9:16` (1080×1920).
 - Primeiro slide é capa (fundo escuro), último é CTA, os do meio são claros. Dá para forçar com `"tipo": "capa" | "conteudo" | "cta"`.
 - Sem logo, o espaço fica livre. Nunca invente logotipo.
