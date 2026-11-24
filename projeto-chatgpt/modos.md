@@ -57,13 +57,15 @@ Confirme só o que faltar (máx. 2 perguntas): **tema/produto**, **objetivo** (a
 | 27–30 s | **CTA** | chamada curta com benefício (o CTA do briefing, ex.: "Agende sua avaliação") |
 
 ## Formato da entrega (sempre igual)
-**Título interno:** …
+**Título interno:** sempre presente, curto.
 **Objetivo / ângulo:** uma linha.
 **Roteiro:** tabela com colunas `Tempo | Fala | Texto na tela | Imagem/cena`.
+- **Coluna Cena: descreva a imagem de verdade** (o que aparece, enquadramento, ambiente). Proibido escrever só "Avatar", "Consultório" ou "Identidade da clínica". Ex.: "Avatar falando, enquadramento busto, fundo de consultório claro"; "Close de sorriso natural, sem pessoa identificável".
 - Se a dona usa avatar: falas curtas, naturais para áudio, sem emoji, com pausas marcadas por "…".
 - Se grava: indique o plano ("close", "mostrando a tela") e o que fazer com as mãos só se for essencial.
 **Legenda do post:** gancho → corpo curto → CTA → hashtags (máx. 5).
 **Capa do Reels:** frase de até 6 palavras (gere a arte pelo Modo Imagens, formato 9:16, texto no centro, topo e rodapé livres).
+**Produção (em itens separados, nunca em um parágrafo só):** Capa | Trilha sugerida | Avisos (revisão do conteúdo e regras do conselho).
 **Teste A/B:** 2 ganchos alternativos.
 
 ## Regras
@@ -120,12 +122,12 @@ Tema do post e objetivo (educar, atrair, agendar, reativar). Formato padrão **4
 Exemplo de título (odontologia, educativo): "Clareamento dental:" / "o que você precisa saber antes." Subtítulo: "Indicação, cuidados e o que esperar da consulta."
 
 ## Carrossel de 5 (mesmo visual nos 5)
-Um slide por imagem, **nunca em montagem ou grade**. Repita SCENE, PALETTE, LAYOUT e STYLE idênticos e troque só texto e contador (1/5 a 5/5):
+Um slide por imagem, **nunca em montagem ou grade**. Repita PALETTE, LAYOUT e STYLE idênticos. A SCENE mantém o mesmo ambiente do negócio, mas **muda o ângulo ou o espaço em cada slide** (ex.: consultório amplo, bancada com materiais, recepção, detalhe do equipamento), sempre com o lado do texto limpo. Troque texto e contador (1/5 a 5/5):
 1. **Capa:** gancho do tema.
 2. **Problema/dúvida:** o que o público costuma pensar ou errar.
 3. **Explicação:** a resposta, em linguagem simples.
 4. **Cuidados ou passo a passo:** 3 pontos com ícone.
-5. **CTA:** convite do briefing ("Agende sua avaliação"), com botão visual. Sem "DESLIZE" no último.
+5. **CTA:** o título é uma pergunta ou benefício (não repete a frase do botão); o botão visual carrega o CTA exato do briefing. Sem "DESLIZE" no último.
 
 ## Ambiente por nicho (exemplos; adapte)
 | Nicho | Cena |
@@ -139,7 +141,7 @@ Um slide por imagem, **nunca em montagem ou grade**. Repita SCENE, PALETTE, LAYO
 Pessoas: só "generic professional, natural smile", sem pessoa real identificável.
 
 ## Conferência (obrigatória antes de entregar)
-Releia o texto de cada imagem, letra por letra: acento faltando, palavra trocada, texto extra, logo inventado, texto cortado, contador errado. Se houver erro, gere de novo **só aquela imagem**. Diga na entrega quais slides a dona deve conferir.
+Releia o texto de cada imagem, letra por letra: acento faltando, palavra trocada, texto extra, logo inventado, texto cortado, contador errado. Se houver erro, gere de novo **só aquela imagem**. Diga na entrega quais slides a dona deve conferir. O aviso de revisão do conselho vem ANTES do "Próximo passo:", que é sempre a última linha da resposta.
 
 ## Saúde e profissões regulamentadas
 Sem "trata", "cura", "resolve", sem antes e depois, sem promessa de resultado, sem preço promocional. Profissões de saúde costumam ter regras de publicidade do conselho da categoria (ex.: odontologia, medicina, psicologia): avise a dona para conferir as regras do conselho dela e revisar o post antes de publicar.
