@@ -9,7 +9,7 @@ Para o dono de um negócio (dentista, terapeuta, loja…) criar os posts do PRÓ
    - `modos.md`
    - `pedidos-prontos.md`
    - `briefing-template.md`
-   - o **briefing do negócio** com o nome `briefing.md`. Para o seu teste, renomeie `briefing-exemplo-clinica-odontologica.md` para `briefing.md`.
+   - o **briefing do negócio**, com nome começando por `briefing` (ex.: `briefing-exemplo-clinica-odontologica.md` no teste, ou `briefing-nome-da-clinica.md` no cliente real).
 4. Abra uma conversa **dentro do projeto** e digite `menu`.
 > Não envie `render_slides.py`. Ele desenha arte com formas simples e foi ele que gerou a arte feia no seu primeiro teste.
 
